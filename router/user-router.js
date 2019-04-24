@@ -1,6 +1,7 @@
 const express = require('express')
 //import DB
 const usersDB = require('../data/helpers/userDb');
+const postsDB = require('../data/helpers/userDb');
 
 const router = express.Router();
 
@@ -18,7 +19,7 @@ router.get('/', async (req, res) => {
     }
   });
 
-   // Get request for posts by id --> /:id
+   // Get request for user by id --> /:id
    router.get('/:id', async (req, res) => {
     try {
       const userID = await usersDB.getById(req.params.id);
@@ -43,7 +44,7 @@ router.get('/', async (req, res) => {
   }
   })
 
-  // Post request to add new posts --> /
+  // Post request to add new user --> /
   router.post('/', checkName, async (req, res) => {
     const { name } = req.body;
         try {
@@ -61,7 +62,22 @@ router.get('/', async (req, res) => {
   });
 
 
-  // Delete request to delete posts --> /:id
+    // Get request for user's posts by id --> /:id
+    router.get('/post/:id', async (req, res) => {
+        try {
+          const user = await usersDB.getUserPosts(req.params.id);
+           user.length !== 0  ? res.status(200).json(user) : res.status(404).json({ message: "The post with the specified user ID does not exist." })
+          
+        } catch (error) {
+          // log error to database
+          res.status(500).json({
+            message: "The post information for this user could not be retrieved."
+          });
+        }
+      });
+
+
+  // Delete request to delete user --> /:id
   router.delete('/:id', async (req, res) => {
     try {
       const user = await usersDB.remove(req.params.id);
@@ -77,7 +93,7 @@ router.get('/', async (req, res) => {
   })
 
 
-  // Put request to edit posts --> /:id
+  // Put request to edit user --> /:id
   router.put('/:id', checkName, async (req, res) => {
     try {
       const { id } = req.params

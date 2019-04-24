@@ -1,7 +1,7 @@
 const express = require('express')
 //import DB
 const postsDB = require('../data/helpers/postDb');
-const userDB = require('../data/helpers/userDb');
+
 
 const router = express.Router();
 
@@ -20,36 +20,20 @@ router.get('/', async (req, res) => {
     }
   });
 
-   // Get request for posts by id --> /:id
-//    router.get('/:id', async (req, res) => {
-//     try {
-//       const postID = await postsDB.getById(req.params.id);
+   //  Get request for posts by id --> /:id
+   router.get('/:id', async (req, res) => {
+    try {
+      const postID = await postsDB.getById(req.params.id);
 
-//       postID ? res.status(200).json(userID) : res.status(404).json({ message: "The post with the specified ID does not exist." })
-//         console.log(userID)
-//     } catch (error) {
-//       // log error to database
-//       res.status(500).json({
-//         message: "The post information for this user could not be retrieved."
-//       });
-//     }
-//   });
-
-    // Get request for user's posts by id --> /:id
-    router.get('/user:id/', async (req, res) => {
-        try {
-          const  post  = await postsDB.getById(req.params.id);
-          const user = await get.getUserPosts(req.params.id);
-    
-          
-        } catch (error) {
-          // log error to database
-          res.status(500).json({
-            message: "The post information for this user could not be retrieved."
-          });
-        }
+      postID ? res.status(200).json(userID) : res.status(404).json({ message: "The post with the specified ID does not exist." })
+        console.log(userID)
+    } catch (error) {
+      // log error to database
+      res.status(500).json({
+        message: "The post information for this user could not be retrieved."
       });
-    
+    }
+  });
 
   // Post request to add new posts --> /
   router.post('/', async (req, res) => {
