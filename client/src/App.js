@@ -10,7 +10,7 @@ constructor() {
 }
 componentDidMount() {
   const url = 'https://webapi-iii-challenge-stephanie.herokuapp.com'
-axios.get(`${url}`).then( res => {
+axios.get(`${url}/api/users`).then( res => {
   this.setState({
     users: res.data
   })

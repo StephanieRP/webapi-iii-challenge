@@ -1,5 +1,7 @@
 const express = require('express')
 const helmet = require('helmet')
+var cors = require('cors')
+
 // import routers 
 const userRouter = require("./router/user-router.js")
 const postsRouter = require("./router/posts-router.js")
