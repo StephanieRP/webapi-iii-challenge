@@ -63,7 +63,7 @@ router.get('/', async (req, res) => {
 
 
     // Get request for user's posts by id --> /:id
-    router.get('/post/:id', async (req, res) => {
+    router.get('/userspost/:id', async (req, res) => {
         try {
           const user = await usersDB.getUserPosts(req.params.id);
            user.length !== 0  ? res.status(200).json(user) : res.status(404).json({ message: "The post with the specified user ID does not exist." })
