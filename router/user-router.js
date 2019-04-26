@@ -35,21 +35,20 @@ router.get('/', async (req, res) => {
   });
 
   //checks user's name before POST and PUT requests
-  const checkName = ('/', (req,res,next) => {
-    const { name } = req.body;
-    if(name[0] !== name[0].toUpperCase() ) {
-        res.status(400).send(`Sorry, you must capitalize the user's name!!`)
-  } else {
+  const checkName = ((req,res,next) => {
+    let { name } = req.body;
+    if(name) {
+      req.body.name = name[0].toUpperCase() + name.slice(1)
+  } 
           next()
-  }
+  
   })
 
   // Post request to add new user --> /
   router.post('/', checkName, async (req, res) => {
-    const { name } = req.body;
         try {
             const newUser = await usersDB.insert(req.body);
-            name ?  res.status(201).json(newUser) : res.status(400).json({
+            newUser.name ?  res.status(201).json(newUser) : res.status(400).json({
               message: "Please provide name for the the new user."
             })
             console.log(req.body)
